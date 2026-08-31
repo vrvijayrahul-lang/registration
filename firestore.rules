@@ -1,0 +1,26 @@
+﻿rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Registrations Collection Security Rules
+    match /registrations/{registrationId} {
+      
+      // Allow any public user (junior student) to submit a new workshop registration
+      // Requires essential valid fields to be present in the document
+      allow create: if request.resource.data.fullName is string
+                    && request.resource.data.studentId is string
+                    && request.resource.data.mobile is string
+                    && request.resource.data.course is string
+                    && request.resource.data.year is string;
+
+      // Allow public checking for duplicates by Student ID query during registration form submission
+      allow read: if true;
+
+      // Prevent unauthorized updates or modifications to existing registrations
+      allow update: if false;
+
+      // Allow ONLY authenticated administrators to delete records or perform complete reads
+      allow delete: if request.auth != null;
+    }
+  }
+}

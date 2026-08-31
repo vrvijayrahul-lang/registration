@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Admin Sign In · P.V.K.N. Workshop Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+
+  <!-- Film grain (fixed) -->
+  <div class="grain-overlay" aria-hidden="true"></div>
+
+  <!-- Floating Island Nav (admin variant — no ghost links) -->
+  <div class="nav-shell">
+    <nav class="nav-island" aria-label="Primary">
+      <a href="../index.html" class="nav-mark">
+        <span class="nav-mark-glyph">P</span>
+        <span class="nav-mark-text">
+          <span class="nav-mark-title">P.V.K.N.</span>
+          <span class="nav-mark-sub">Chittoor · Autonomous</span>
+        </span>
+      </a>
+
+      <span class="nav-context">
+        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+        <span>Admin Console</span>
+      </span>
+
+      <div class="nav-actions">
+        <a href="../index.html" class="cta-pill cta-pill--ghost">
+          <span>Back to Portal</span>
+          <span class="cta-pill-dot" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h14M11 5l-7 7 7 7"/></svg>
+          </span>
+        </a>
+      </div>
+    </nav>
+  </div>
+
+  <main class="login-main">
+
+    <!-- Editorial Split: left = context, right = card -->
+    <section class="login-section">
+      <div class="wrap">
+
+        <div class="login-grid">
+
+          <!-- Left: editorial context -->
+          <aside class="login-context reveal" data-reveal="rise">
+            <span class="eyebrow">
+              <span class="eyebrow-dot" aria-hidden="true"></span>
+              Restricted area
+            </span>
+
+            <h1 class="login-context-title">
+              A <em>small</em> door<br>
+              behind the <span class="serif-italic underline-mark">workshop</span>.
+            </h1>
+
+            <p class="login-context-lede">The admin console is for the workshop coordinators only. From here you can review registrations, monitor cohort composition, and export records.</p>
+
+            <ul class="login-context-list">
+              <li>
+                <span class="list-num">I.</span>
+                <div>
+                  <strong>Realtime dashboard.</strong>
+                  <span>Live Firestore sync — changes appear the moment a student registers.</span>
+                </div>
+              </li>
+              <li>
+                <span class="list-num">II.</span>
+                <div>
+                  <strong>Cohort filters.</strong>
+                  <span>Slice by stream, year, and participation day to understand your audience.</span>
+                </div>
+              </li>
+              <li>
+                <span class="list-num">III.</span>
+                <div>
+                  <strong>One-click CSV export.</strong>
+                  <span>Take the full registry offline for printing and check-in at the lab.</span>
+                </div>
+              </li>
+            </ul>
+
+            <div class="login-context-foot">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>
+              <span>Forgot credentials? Reach out to the <em>workshop coordinator</em> to reset your Firebase admin account.</span>
+            </div>
+          </aside>
+
+          <!-- Right: login card -->
+          <div class="login-card-wrap reveal" data-reveal="rise" data-reveal-delay="120">
+
+            <div class="bezel bezel--login">
+              <div class="bezel-core bezel-core--login">
+
+                <div class="login-card-head">
+                  <div class="login-mark" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5 3.5 8.5 8 10 4.5-1.5 8-5 8-10V6l-8-4z"/><path d="m9 12 2 2 4-4"/></svg>
+                  </div>
+                  <span class="chip chip--gold">
+                    <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+                    Secure access
+                  </span>
+                </div>
+
+                <h2 class="login-title">Administrator <em>sign in</em>.</h2>
+                <p class="login-sub">Authenticate with your Firebase admin credentials.</p>
+
+                <form id="loginForm" class="login-form" novalidate>
+
+                  <div class="field">
+                    <label class="field-label" for="email">
+                      <span>Email Address <em class="req">*</em></span>
+                    </label>
+                    <div class="field-input-wrap field-prefix-wrap">
+                      <span class="field-prefix">
+                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+                      </span>
+                      <input type="email" id="email" class="field-input field-input--prefixed" placeholder="admin@pvkn.ac.in" autocomplete="email" required>
+                    </div>
+                  </div>
+
+                  <div class="field">
+                    <label class="field-label" for="password">
+                      <span>Password <em class="req">*</em></span>
+                      <span class="field-hint">Encrypted in transit</span>
+                    </label>
+                    <div class="field-input-wrap field-prefix-wrap">
+                      <span class="field-prefix">
+                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+                      </span>
+                      <input type="password" id="password" class="field-input field-input--prefixed" placeholder="••••••••••••" autocomplete="current-password" required>
+                    </div>
+                  </div>
+
+                  <button type="submit" id="loginBtn" class="cta-pill cta-pill--dark cta-pill--xl cta-pill--full">
+                    <span id="loginText">Sign In to Admin Portal</span>
+                    <span class="cta-pill-spinner" id="loginSpinner" aria-hidden="true"></span>
+                    <span class="cta-pill-dot" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+                    </span>
+                  </button>
+
+                </form>
+
+                <div class="login-card-foot">
+                  <span class="login-foot-dot" aria-hidden="true"></span>
+                  <span>Protected by Firebase Authentication · STJR 2026</span>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Toast container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script>
+    // Mobile menu (reused)
+    (function() {
+      // no-op for login (nav has no burger by default); placeholder for parity
+    })();
+
+    // Scroll reveals
+    (function() {
+      var items = document.querySelectorAll('[data-reveal]');
+      if (!('IntersectionObserver' in window)) { items.forEach(function(el){el.classList.add('is-in');}); return; }
+      var io = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) { entry.target.classList.add('is-in'); io.unobserve(entry.target); }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+      items.forEach(function(el) { io.observe(el); });
+    })();
+  </script>
+
+  <!-- Admin login module (uses IDs: loginForm, loginBtn, loginText, loginSpinner, email, password) -->
+  <script type="module" src="../js/admin.js"></script>
+
+</body>
+</html>
