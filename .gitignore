@@ -28,6 +28,9 @@ yarn-error.log
 .env.local
 .env.*.local
 
+# Local Firebase config (real project credentials) — use firebase-config.example.js as a template
+js/firebase-config.js
+
 # Logs
 *.log
 

@@ -1,26 +1,107 @@
-﻿rules_version = '2';
+rules_version = '2';
+
+// Cloud Firestore Security Rules
+// ----------------------------------------------------------------------------
+// P.V.K.N. Workshop Portal — STJR 2026
+//
+// Pattern:
+//   • `registrations/`     — public CREATE with strict field validation;
+//                            READ / UPDATE / DELETE restricted to signed-in admins.
+//   • Everything else      — denied by default.
+//
+// Deploy with:
+//   firebase deploy --only firestore:rules
+// ----------------------------------------------------------------------------
+
 service cloud.firestore {
   match /databases/{database}/documents {
-    
-    // Registrations Collection Security Rules
-    match /registrations/{registrationId} {
-      
-      // Allow any public user (junior student) to submit a new workshop registration
-      // Requires essential valid fields to be present in the document
-      allow create: if request.resource.data.fullName is string
-                    && request.resource.data.studentId is string
-                    && request.resource.data.mobile is string
-                    && request.resource.data.course is string
-                    && request.resource.data.year is string;
 
-      // Allow public checking for duplicates by Student ID query during registration form submission
-      allow read: if true;
+    // Helper: is the request from a signed-in admin?
+    function isSignedIn() {
+      return request.auth != null;
+    }
 
-      // Prevent unauthorized updates or modifications to existing registrations
-      allow update: if false;
+    // Helper: is this a brand-new document (CREATE only)?
+    function isNewDoc() {
+      return request.method == 'create';
+    }
 
-      // Allow ONLY authenticated administrators to delete records or perform complete reads
-      allow delete: if request.auth != null;
+    // Allowed course values
+    function isValidCourse(v) {
+      return v in ['B.Sc.', 'B.A.', 'B.Com.', 'BBA', 'BCA'];
+    }
+
+    // Allowed year values
+    function isValidYear(v) {
+      return v in ['1st Year', '2nd Year', '3rd Year'];
+    }
+
+    // Allowed participation values
+    function isValidParticipation(v) {
+      return v in ['Day 1 Only', 'Day 2 Only', 'Both Days'];
+    }
+
+    // Allowed gender values
+    function isValidGender(v) {
+      return v in ['Male', 'Female', 'Prefer not to say'];
+    }
+
+    // Field-level validation for a registration payload
+    function isValidRegistration(data) {
+      return data.keys().hasAll([
+          'registrationId', 'fullName', 'studentId', 'course',
+          'year', 'mobile', 'email', 'gender', 'participation',
+          'createdAt'
+        ])
+        && data.registrationId is string
+        && data.registrationId.size() > 0
+        && data.registrationId.size() <= 32
+        && data.fullName is string
+        && data.fullName.size() >= 2
+        && data.fullName.size() <= 80
+        && data.studentId is string
+        && data.studentId.size() >= 4
+        && data.studentId.size() <= 20
+        && isValidCourse(data.course)
+        && isValidYear(data.year)
+        && data.mobile is string
+        && data.mobile.size() == 10
+        && data.email is string
+        && data.email.matches('.*@.*\\..*')
+        && isValidGender(data.gender)
+        && isValidParticipation(data.participation)
+        && data.createdAt is string;
+    }
+
+    match /registrations/{regId} {
+
+      // Public can CREATE a new registration, but only with valid fields.
+      // The same document cannot be re-created (admin auth required for any
+      // subsequent read/update/delete).
+      allow create: if isNewDoc()
+                    && isValidRegistration(request.resource.data);
+
+      // Only signed-in admins (any authenticated user — see note below) can
+      // read or modify existing records.
+      //
+      // ⚠️  IMPORTANT: this currently allows ANY signed-in Firebase Auth user
+      // to read registrations. If you have multiple Firebase Auth users who
+      // are NOT workshop admins, tighten this with custom claims:
+      //
+      //   function isAdmin() {
+      //     return request.auth != null
+      //       && request.auth.token.admin == true;
+      //   }
+      //   allow read, update, delete: if isAdmin();
+      //
+      // Then set the claim from the Firebase Admin SDK (server side) for each
+      // admin account, e.g. auth.setCustomUserClaims(uid, { admin: true }).
+      allow read, update, delete: if isSignedIn();
+    }
+
+    // Default-deny for any other collection
+    match /{document=**} {
+      allow read, write: if false;
     }
   }
 }
