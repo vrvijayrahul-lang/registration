@@ -28,8 +28,9 @@ yarn-error.log
 .env.local
 .env.*.local
 
-# Local Firebase config (real project credentials) — use firebase-config.example.js as a template
-js/firebase-config.js
+# Firebase config: js/firebase-config.js is now tracked so Vercel can serve it.
+# Firebase web API keys are designed to be public (they identify the project,
+# not the user). Real security lives in firestore.rules + Firebase Auth.
 
 # Logs
 *.log
