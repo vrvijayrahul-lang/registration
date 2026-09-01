@@ -952,10 +952,11 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
 }
 
 @media (max-width: 480px) {
-  .nav-shell { top: 0.75rem; padding: 0 0.75rem; }
-  .nav-island { padding: 0.4rem 0.5rem 0.4rem 0.85rem; }
-  .nav-mark-glyph { width: 28px; height: 28px; font-size: 12px; }
-  .nav-burger { width: 32px; height: 32px; }
+  .nav-shell { top: 0.6rem; padding: 0 0.6rem; }
+  .nav-island { padding: 0.3rem 0.4rem 0.3rem 0.7rem; gap: 0.4rem; }
+  .nav-mark-glyph { width: 26px; height: 26px; font-size: 11px; }
+  .nav-burger { width: 30px; height: 30px; }
+  .nav-burger-line { width: 13px; }
 
   .dash-shell { padding: 16px 0 60px; }
   .dash-head { margin-bottom: 24px; gap: 14px; }
