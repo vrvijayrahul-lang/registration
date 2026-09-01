@@ -121,8 +121,10 @@ if (isDashboardPage) {
         });
       });
 
-      // Sort by creation date descending
-      allRegistrations.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      // Sort by registration sequence descending (newest first).
+      // registrationSeq is monotonically allocated by the server-side counter
+      // and is a more reliable sort key than client-stamped createdAt.
+      allRegistrations.sort((a, b) => (b.registrationSeq || 0) - (a.registrationSeq || 0));
 
       updateMetrics(allRegistrations);
       renderTable(allRegistrations);

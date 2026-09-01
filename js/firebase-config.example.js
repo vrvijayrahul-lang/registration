@@ -17,7 +17,8 @@ import {
   addDoc,
   deleteDoc,
   orderBy,
-  onSnapshot
+  onSnapshot,
+  runTransaction
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 import {
   getAuth,
@@ -60,6 +61,7 @@ export {
   deleteDoc,
   orderBy,
   onSnapshot,
+  runTransaction,
   signInWithEmailAndPassword,
   signOut,
   onAuthStateChanged

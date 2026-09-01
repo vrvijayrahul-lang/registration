@@ -49,13 +49,16 @@ service cloud.firestore {
     // Field-level validation for a registration payload
     function isValidRegistration(data) {
       return data.keys().hasAll([
-          'registrationId', 'fullName', 'studentId', 'course',
-          'year', 'mobile', 'email', 'gender', 'participation',
+          'registrationId', 'registrationSeq', 'fullName', 'studentId',
+          'course', 'year', 'mobile', 'email', 'gender', 'participation',
           'createdAt'
         ])
         && data.registrationId is string
         && data.registrationId.size() > 0
         && data.registrationId.size() <= 32
+        && data.registrationSeq is int
+        && data.registrationSeq >= 1
+        && data.registrationSeq <= 9999
         && data.fullName is string
         && data.fullName.size() >= 2
         && data.fullName.size() <= 80
@@ -97,6 +100,23 @@ service cloud.firestore {
       // Then set the claim from the Firebase Admin SDK (server side) for each
       // admin account, e.g. auth.setCustomUserClaims(uid, { admin: true }).
       allow read, update, delete: if isSignedIn();
+    }
+
+    // Sequence counter used to allocate unique registration IDs atomically
+    // (see js/registration.js → createRegistrationAtomically). Public needs
+    // to be able to read+write this single doc so the transaction works.
+    // We restrict it to the exact shape we expect: a single integer field
+    // `registrationSeq` that is strictly greater than the existing value
+    // (prevents accidental rewinds if rules are misconfigured).
+    match /metadata/counters/{counterId} {
+      allow read, create, update: if counterId == 'counters'
+                                   && request.resource.data.keys().hasOnly(['registrationSeq'])
+                                   && request.resource.data.registrationSeq is int
+                                   && request.resource.data.registrationSeq >= 1
+                                   && (!exists(/databases/$(database)/documents/metadata/counters/$(counterId))
+                                       || request.resource.data.registrationSeq
+                                          > resource.data.registrationSeq);
+      allow delete: if false;
     }
 
     // Default-deny for any other collection
