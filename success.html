@@ -588,8 +588,10 @@
     @media (max-width: 980px) {
       .nav-paths { display: none; }
       .nav-burger { display: grid; place-items: center; }
-      .nav-island { padding-right: 0.55rem; }
+      .nav-island { padding-right: 0.55rem; gap: 0.75rem; }
       .nav-actions { display: none; }
+      .nav-mark-text { display: none; }
+      .nav-mark { padding-right: 0; border-right: 0; }
 
       .receipt-grid { grid-template-columns: 1fr; gap: 0; }
       .next-steps-list { grid-template-columns: 1fr; }
@@ -605,6 +607,62 @@
       .receipt-stamp { align-self: flex-end; }
       .receipt-actions { flex-direction: column; align-items: stretch; }
       .receipt-actions .cta-pill { justify-content: space-between; }
+
+      .reg-id-text { font-size: clamp(1.6rem, 8vw, 2.2rem); }
+      .reg-id-row { gap: 0.6rem; }
+
+      .next-steps-list li { padding: 1.25rem; }
+      .next-num { font-size: 1.05rem; }
+      .next-steps-list strong { font-size: 1rem; }
+      .next-steps-list span { font-size: 0.82rem; }
+    }
+
+    @media (max-width: 480px) {
+      .wrap { padding: 0 1rem; }
+      .nav-shell { top: 0.75rem; padding: 0 0.75rem; }
+      .nav-island { padding: 0.4rem 0.5rem 0.4rem 0.85rem; }
+      .nav-mark-glyph { width: 30px; height: 30px; font-size: 0.85rem; }
+      .nav-burger { width: 34px; height: 34px; }
+
+      .success-main { padding-top: 5rem; }
+      .success-section { padding: 1rem 0 2.5rem; }
+      .success-head { margin-bottom: 2rem; }
+      .success-title { font-size: clamp(1.9rem, 9vw, 2.4rem); margin: 1rem 0; }
+      .success-lede { font-size: 0.95rem; }
+      .eyebrow { font-size: 0.62rem; letter-spacing: 0.14em; padding: 0.35rem 0.75rem; }
+
+      .bezel-core--receipt { padding: 1.25rem; }
+      .bezel--receipt { padding: 6px; }
+
+      .receipt-strip { padding-bottom: 1.25rem; margin-bottom: 1.5rem; }
+      .receipt-strip-tag { font-size: 0.62rem; letter-spacing: 0.16em; }
+      .receipt-strip-sub { font-size: 0.88rem; }
+      .receipt-stamp svg { width: 48px; height: 48px; }
+
+      .reg-id-block { margin-bottom: 1.5rem; }
+      .reg-id-label { font-size: 0.62rem; }
+      .reg-id-note { font-size: 0.75rem; }
+      .reg-id-copy { font-size: 0.72rem; padding: 0.4rem 0.75rem; }
+
+      .receipt-cell { padding: 0.75rem 0; }
+      .receipt-cell-k { font-size: 0.62rem; letter-spacing: 0.14em; }
+      .receipt-cell-v { font-size: 0.95rem; }
+
+      .receipt-perf { margin: 1.5rem 0 1.25rem; }
+      .perf-dot { width: 10px; height: 10px; }
+
+      .next-steps { margin-top: 2rem; }
+      .next-steps-eyebrow { font-size: 0.65rem; margin-bottom: 1rem; }
+      .next-steps-list { gap: 0.85rem; }
+      .next-steps-list li { padding: 1.1rem; gap: 0.4rem; }
+
+      .success-foot-inner { flex-direction: column; align-items: flex-start; }
+    }
+
+    @media (max-width: 360px) {
+      .success-title { font-size: 1.8rem; }
+      .reg-id-text { font-size: 1.5rem; }
+      .receipt-cell-v { font-size: 0.88rem; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -619,6 +677,10 @@
       body { background: #fff; color: #000; }
       .reg-id-text, .receipt-cell-v, .success-title { color: #000; }
     }
+
+    /* iOS safe-area */
+    .nav-shell { padding-top: max(1.25rem, env(safe-area-inset-top)); }
+    .mobile-menu { padding-top: max(6rem, calc(5rem + env(safe-area-inset-top))); padding-bottom: max(3rem, env(safe-area-inset-bottom)); }
   </style>
 
 </body>

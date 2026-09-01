@@ -731,8 +731,10 @@
     @media (max-width: 980px) {
       .nav-paths { display: none; }
       .nav-burger { display: grid; place-items: center; }
-      .nav-island { padding-right: 0.55rem; }
+      .nav-island { padding-right: 0.55rem; gap: 0.75rem; }
       .nav-actions { display: none; }
+      .nav-mark-text { display: none; }
+      .nav-mark { padding-right: 0; border-right: 0; }
 
       .register-head-grid { grid-template-columns: 1fr; gap: 2.5rem; }
       .bezel--side { position: static; }
@@ -750,6 +752,59 @@
       .cta-pill--xl { justify-content: space-between; width: 100%; padding-right: 0.7rem; }
       .cta-pill--xl .cta-pill-dot { width: 32px; height: 32px; }
       .form-submit-row { gap: 1rem; }
+
+      .register-bullets li { font-size: 0.9rem; gap: 0.6rem; }
+
+      .side-row .side-v { font-size: 0.95rem; }
+      .side-quote p { font-size: 0.88rem; }
+
+      /* Better touch targets */
+      .field-input { font-size: 1rem; padding: 1rem 1.1rem; }
+      .segmented-item span { padding: 0.95rem 0.5rem; }
+      .radio-card-inner { padding: 1.1rem; }
+
+      /* Toast on small screens */
+      .toast-container { left: 1rem; right: 1rem; bottom: 1rem; }
+      .toast { max-width: none; padding: 0.9rem 1.1rem; font-size: 0.88rem; }
+    }
+
+    @media (max-width: 480px) {
+      .wrap { padding: 0 1rem; }
+      .nav-shell { top: 0.75rem; padding: 0 0.75rem; }
+      .nav-island { padding: 0.4rem 0.5rem 0.4rem 0.85rem; }
+      .nav-mark-glyph { width: 30px; height: 30px; font-size: 0.85rem; }
+      .nav-burger { width: 34px; height: 34px; }
+
+      .register-main { padding-top: 5.75rem; }
+      .register-title { font-size: clamp(1.95rem, 9.5vw, 2.4rem); margin: 1rem 0 1rem; }
+      .register-lede { font-size: 0.95rem; }
+      .eyebrow { font-size: 0.62rem; letter-spacing: 0.14em; padding: 0.35rem 0.75rem; }
+
+      .bezel-core--side, .bezel-core--form { padding: 1.25rem; }
+      .bezel--form { padding: 6px; }
+
+      .form-band { flex-direction: column; align-items: flex-start; gap: 0.6rem; margin-bottom: 1.5rem; }
+      .form-band-tag { font-size: 0.65rem; }
+      .form-grid { gap: 1.25rem; }
+
+      .field-label { font-size: 0.78rem; }
+      .field-hint { font-size: 0.72rem; }
+      .terms-row { padding: 0.9rem 1rem; }
+      .terms-text { font-size: 0.85rem; }
+      .terms-box { width: 20px; height: 20px; }
+
+      .register-bullets { margin-top: 1.5rem; gap: 0.7rem; }
+      .bullet-num { font-size: 0.92rem; min-width: 1.3rem; }
+      .register-bullets li { font-size: 0.85rem; }
+
+      .register-foot-inner { flex-direction: column; align-items: flex-start; }
+    }
+
+    @media (max-width: 360px) {
+      .register-title { font-size: 1.8rem; }
+      .field-input { font-size: 0.95rem; padding: 0.9rem 1rem; }
+      .radio-card-title { font-size: 1.05rem; }
+      .radio-card-sub { font-size: 0.78rem; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -761,6 +816,11 @@
       .nav-shell, .grain-overlay, .register-foot, .form-submit-row, .toast-container, .register-side, .register-bullets { display: none !important; }
       body { background: #fff; color: #000; }
     }
+
+    /* iOS safe-area + 16px input font (prevents zoom on focus) */
+    .nav-shell { padding-top: max(1.25rem, env(safe-area-inset-top)); }
+    .mobile-menu { padding-top: max(6rem, calc(5rem + env(safe-area-inset-top))); padding-bottom: max(3rem, env(safe-area-inset-bottom)); }
+    .field-input, .field-select { font-size: max(16px, 1rem); }
   </style>
 
 </body>

@@ -38,7 +38,27 @@
           </span>
         </a>
       </div>
+
+      <button class="nav-burger" id="navBurger" aria-label="Open menu" aria-expanded="false">
+        <span class="nav-burger-line nav-burger-line--a"></span>
+        <span class="nav-burger-line nav-burger-line--b"></span>
+      </button>
     </nav>
+  </div>
+
+  <!-- Mobile menu overlay -->
+  <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+    <ul class="mobile-menu-list">
+      <li><a href="../index.html" class="mobile-menu-link" data-stagger>Home</a></li>
+      <li><a href="login.html" class="mobile-menu-link" data-stagger>Admin Sign In</a></li>
+      <li><a href="dashboard.html" class="mobile-menu-link" data-stagger>Dashboard</a></li>
+    </ul>
+    <a href="../index.html" class="cta-pill cta-pill--dark mobile-menu-cta" data-stagger>
+      <span>Back to Portal</span>
+      <span class="cta-pill-dot" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h14M11 5l-7 7 7 7"/></svg>
+      </span>
+    </a>
   </div>
 
   <main class="login-main">
@@ -170,9 +190,24 @@
   <div class="toast-container" id="toastContainer"></div>
 
   <script>
-    // Mobile menu (reused)
+    // Mobile menu
     (function() {
-      // no-op for login (nav has no burger by default); placeholder for parity
+      var burger = document.getElementById('navBurger');
+      var menu   = document.getElementById('mobileMenu');
+      if (!burger || !menu) return;
+      var links  = menu.querySelectorAll('[data-stagger]');
+      var open   = false;
+      function setOpen(state) {
+        open = state;
+        burger.setAttribute('aria-expanded', String(open));
+        menu.setAttribute('aria-hidden', String(!open));
+        menu.classList.toggle('is-open', open);
+        document.body.style.overflow = open ? 'hidden' : '';
+        if (open) links.forEach(function(el, i) { el.style.transitionDelay = (120 + i * 60) + 'ms'; });
+        else links.forEach(function(el) { el.style.transitionDelay = '0ms'; });
+      }
+      burger.addEventListener('click', function() { setOpen(!open); });
+      links.forEach(function(el) { el.addEventListener('click', function() { setOpen(false); }); });
     })();
 
     // Scroll reveals
