@@ -1,0 +1,19 @@
+{
+  "name": "pvkn-workshop-portal",
+  "version": "1.0.0",
+  "private": true,
+  "description": "P.V.K.N. Workshop Portal — STJR 2026 registration site. Static frontend served by Firebase Hosting; Firestore backend for registration data.",
+  "scripts": {
+    "deploy:rules": "firebase deploy --only firestore:rules",
+    "deploy:hosting": "firebase deploy --only hosting",
+    "deploy:all": "firebase deploy",
+    "deploy:full": "firebase deploy --only firestore:rules,hosting",
+    "rules:test": "node -e \"require('fs').readFileSync('firestore.rules','utf8')\" && echo \"firestore.rules is readable\""
+  },
+  "devDependencies": {
+    "firebase-tools": "^14.0.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
