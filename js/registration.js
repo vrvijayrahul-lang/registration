@@ -91,6 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
+    console.log("Form submitted");
 
     // Collect field values
     const fullName = document.getElementById('fullName').value.trim();
@@ -99,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const year = document.getElementById('year').value;
     const mobile = document.getElementById('mobile').value.trim();
     const email = document.getElementById('email').value.trim().toLowerCase();
-    
+
     // Gender radio selection
     const genderEl = document.querySelector('input[name="gender"]:checked');
     const gender = genderEl ? genderEl.value : '';
@@ -125,16 +126,19 @@ document.addEventListener('DOMContentLoaded', () => {
       experience,
       terms
     };
+    console.log("Collected payload:", payload);
 
     // Client-side validation check
     const validationErrors = validateRegistrationForm(payload);
     if (validationErrors.length > 0) {
+      console.warn("Client validation failed:", validationErrors);
       validationErrors.forEach(err => showToast(err, 'error'));
       return;
     }
 
     // Set Loading State
     setLoading(true);
+    console.log("Starting Firebase save...");
 
     try {
       // 1. Fast-path duplicate check — saves a round trip when the same
@@ -145,6 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const dupSnap = await getDocs(dupQ);
 
       if (!dupSnap.empty) {
+        console.warn("Duplicate studentId detected (fast path):", studentId);
         showToast("You're already registered for this workshop.", "warning");
         setLoading(false);
         return;
@@ -164,16 +169,20 @@ document.addEventListener('DOMContentLoaded', () => {
         experience: experience || "None",
         createdAt: new Date().toISOString()
       };
+      console.log("Registration data:", registrationData);
+      console.log("Saving to Firestore...");
 
       // 3. Atomic write — counter increment + duplicate re-check + create,
       //    all in a single transaction. Returns the full doc with
       //    registrationId + registrationSeq filled in.
       const newRegistrationData = await createRegistrationAtomically(registrationData);
+      console.log("Registration saved successfully:", newRegistrationData);
 
       // Save to Session Storage for Immediate Success Receipt rendering
       sessionStorage.setItem('latestRegistration', JSON.stringify(newRegistrationData));
 
       showToast("Registration Successful! Redirecting...", "success");
+      console.log("Redirecting to success page...");
 
       // Redirect to success confirmation receipt page
       setTimeout(() => {
@@ -181,7 +190,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 1000);
 
     } catch (error) {
-      console.error("Firestore Registration Error:", error);
+      console.error("Registration error:", error);
       if (error && error.code === 'duplicate') {
         showToast("You're already registered for this workshop.", "warning");
       } else {

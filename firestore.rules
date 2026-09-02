@@ -26,9 +26,21 @@ service cloud.firestore {
       return request.method == 'create';
     }
 
-    // Allowed course values
+    // Allowed course values — must match the <option value="..."> strings
+    // sent by register.html. The form uses long descriptive values (e.g.
+    // "B.Sc Computer Science") instead of short codes so the registry
+    // stays human-readable. The dashboard's stream filter uses the same
+    // strings, so all three stay in sync.
     function isValidCourse(v) {
-      return v in ['B.Sc.', 'B.A.', 'B.Com.', 'BBA', 'BCA'];
+      return v in [
+        'B.Sc Computer Science',
+        'B.Sc General Science',
+        'B.Com Computer Applications',
+        'B.Com General / Honours',
+        'B.A. Arts & Humanities',
+        'BBA / Management',
+        'Other Stream'
+      ];
     }
 
     // Allowed year values
@@ -36,9 +48,10 @@ service cloud.firestore {
       return v in ['1st Year', '2nd Year', '3rd Year'];
     }
 
-    // Allowed participation values
+    // Allowed participation values — must match the radio `value` strings
+    // in register.html ("Day 1", "Day 2", "Both Days").
     function isValidParticipation(v) {
-      return v in ['Day 1 Only', 'Day 2 Only', 'Both Days'];
+      return v in ['Day 1', 'Day 2', 'Both Days'];
     }
 
     // Allowed gender values

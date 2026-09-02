@@ -35,6 +35,7 @@ if (isLoginPage) {
 
   loginForm?.addEventListener('submit', async (e) => {
     e.preventDefault();
+    console.log("Admin login form submitted");
     const email = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value;
 
@@ -44,15 +45,18 @@ if (isLoginPage) {
     }
 
     setLoginLoading(true);
+    console.log("Attempting login...");
 
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      console.log("Login successful:", userCredential.user);
       showToast("Authentication successful! Loading dashboard...", "success");
+      console.log("Redirecting to admin dashboard...");
       setTimeout(() => {
         window.location.href = 'dashboard.html';
       }, 800);
     } catch (err) {
-      console.error("Login Failed:", err);
+      console.error("Login error:", err);
       let errMsg = "Invalid credentials or unauthorized access.";
       if (err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
         errMsg = "Invalid email address or password.";
